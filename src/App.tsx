@@ -1,25 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
+import Layout from './layout/Layout';
+import Dashboard from './components/Dashboard';
+import Orders from './components/Orders';
+import Home from './components/Home';
+import { ConfigContext, ConfigProvider } from './config/ConfigContext';
+import Users from './components/Users';
+import Loader from './core/Loader';
 
-function App() {
+
+export function App() {
+
+  const { isLoading } = useContext(ConfigContext);
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+      <Loader isLoading={isLoading}>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/orders' element={<Orders />} />
+              <Route path='/users' element={<Users />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </Loader>
+
+
+   </div>
   );
 }
 
