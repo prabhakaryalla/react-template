@@ -7,6 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 import { ConfigContext } from '../config/ConfigContext';
 import Loader from '../core/Loader';
+import { LabServicesApi } from '../core/LabApi';
 
 export default function Users() {
 
@@ -16,13 +17,11 @@ export default function Users() {
 
     useEffect(() => {
         setIsLoading(true);
-        const url = config.backendUrl + "/users";
-        fetch(url).then(response => {
-            response.json().then((res) => {
-                setUsers(res);
-                setIsLoading(false);
-            })
-        })
+        LabServicesApi.get('/users').then((response:any) => {
+            setUsers(response.data);
+            setIsLoading(false);
+        } );
+     
     }, [])
 
     return (
