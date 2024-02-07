@@ -7,10 +7,14 @@ import Dashboard from './components/Dashboard';
 import Orders from './components/Orders';
 import Home from './components/Home';
 import { ConfigContext, ConfigProvider } from './config/ConfigContext';
-import Users from './components/Users';
+import Users from './components/Users/Users';
 import Loader from './core/Loader';
 import { configureAxios } from './auth/AxiosBuilder';
 import { LabServicesApi } from './core/LabApi';
+import Notifications from './layout/Notification';
+import UserForm from './components/Users/UserForm';
+import { UserContextProvider } from './components/Users/UserContext';
+import EditUser from './components/Users/EditUser';
 
 
 export function App() {
@@ -37,9 +41,13 @@ export function App() {
               <Route path='/' element={<Home />} />
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/orders' element={<Orders />} />
-              <Route path='/users' element={<Users />} />
+              <Route path='/users' element={<UserContextProvider><Users /></UserContextProvider>} />
+              <Route path='/users/edit/:id' element={<UserContextProvider><EditUser /></UserContextProvider>} />
+              <Route path='/users/create' element={<UserForm />} />
             </Routes>
+            <Notifications />
           </Layout>
+          
         </BrowserRouter>
       </Loader>
 
