@@ -8,18 +8,18 @@ interface IUserContext {
     setUsers: React.Dispatch<React.SetStateAction<IUserContext['users']>>
 }
 
-export const UserContext = createContext<IUserContext|null>(null);
+export const UserContext = createContext<IUserContext | null>(null);
 
 
-export const useUserContext = () => 
+export const useUserContext = () =>
     useContextWrapper(UserContext, {
         contextName: useUserContext.name,
         providerName: UserContextProvider.name
     })
 
 
-export const UserContextProvider = ({children}: React.PropsWithChildren<{}>) => {
+export const UserContextProvider = ({ children }: React.PropsWithChildren<{}>) => {
     const [users, setUsers] = useState<IUserContext['users']>([]);
-    const value = React.useMemo(() => ({users, setUsers}), [users]);
+    const value = React.useMemo(() => ({ users, setUsers }), [users]);
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
