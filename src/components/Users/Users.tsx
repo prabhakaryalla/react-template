@@ -16,8 +16,10 @@ import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import MaterialTable, { MTableToolbar } from 'material-table'
 import { blue, grey } from '@mui/material/colors';
+import { useTheme } from '@mui/material/styles';
 
 export default function Users() {
+    const theme = useTheme();
 
     const [companyUsers, setCompanyUsers] = useState([] as IUser[]);
     const [isLoading, setIsLoading] = useState(true);
@@ -48,13 +50,14 @@ export default function Users() {
             <React.Fragment>
                 <MaterialTable icons={tableIcons} title="Users" columns={columns} data={companyUsers}
                     style={{ margin: 10 }}
+                    
                     components={{
                         Toolbar: props => (
-                            <div style={{ backgroundColor: blue[600] }} >
-                                <MTableToolbar {...props} />
+                            <div style={{ backgroundColor: theme.palette.primary.main }} >
+                                <MTableToolbar {...props} searchFieldStyle={{ backgroundColor: grey[200] }} />
                             </div>
-
                         )
+                        
                     }}
                     actions={[
                         rowData => ({
@@ -81,7 +84,9 @@ export default function Users() {
                             if (index % 2 != 0)
                                 return { backgroundColor: grey[200] }
                             return { }
-                        }
+                        },
+                        
+                    
                         // rowStyle:(data,index)=>index%2==0?{backgroundColor:'#eee'}:null,
 
                     }}

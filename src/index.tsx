@@ -4,15 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ConfigProvider } from './config/ConfigContext';
+import { ThemeProvider } from '@mui/material';
+import { getTheme } from './layout/Theme';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <ConfigProvider>
-      <App />
-    </ConfigProvider>   
+    <ThemeProvider theme={getTheme()}>
+      <ConfigProvider>
+        <App />
+      </ConfigProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
 
