@@ -3,12 +3,24 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { IUser } from './IUser';
 import { useUserContext } from './UserContext';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 // @ts-ignore
 import { Column } from 'material-table'
 import { useTheme } from '@mui/material/styles';
 import Table from '../../core/Table';
 import { fetchUsers } from './UsersClient';
+import FullPage from '../../core/FullPage';
+import { Fab, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add'
+
+
+export const AddLink = function AddLink() {
+    return (
+        <Fab to={'/users/create'} component={NavLink} variant="extended" color="primary" aria-label="add user" size="medium">
+            <AddIcon /> Add User
+        </Fab>
+    )
+}
 
 export default function Users() {
     const theme = useTheme();
@@ -25,9 +37,9 @@ export default function Users() {
             setUsers(res as IUser[]);
             setIsLoading(false);
         })
-        .catch(err => {
-            setIsLoading(false);
-        })
+            .catch(err => {
+                setIsLoading(false);
+            })
     }, [])
 
     type RowData = IUser;
@@ -45,23 +57,24 @@ export default function Users() {
         nav(url)
     }
 
-    return (
-
-        <Table title="Users" isLoading={isLoading} columns={columns} data={companyUsers}
-            actions={[
-                {
-                    icon: EditIcon,
-                    tooltip: 'Edit User',
-                    onClick: (event, rowData: any) => {
-                        const url = `/users/edit/${rowData.id}`;
-                        nav(url)
+    return (<FullPage heading="Users" actions={<AddLink />}>
+            <Table title="Users" isLoading={isLoading} columns={columns} data={companyUsers}
+                actions={[
+                    {
+                        icon: EditIcon,
+                        tooltip: 'Edit User',
+                        onClick: (event, rowData: any) => {
+                            const url = `/users/edit/${rowData.id}`;
+                            nav(url)
+                        }
+                    },
+                    {
+                        icon: DeleteIcon,
+                        tooltip: 'Delete User',
+                        onClick: (event, rowData: any) => alert("You want to delete " + rowData.name),
                     }
-                },
-                {
-                    icon: DeleteIcon,
-                    tooltip: 'Delete User',
-                    onClick: (event, rowData: any) => alert("You want to delete " + rowData.name),
-                }
 
-            ]} />);
+                ]} />
+        </FullPage>
+    );
 }
