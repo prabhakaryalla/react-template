@@ -8,10 +8,10 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Column } from 'material-table'
 import { useTheme } from '@mui/material/styles';
 import Table from '../../core/Table';
-import { fetchUsers } from './UsersClient';
 import FullPage from '../../core/FullPage';
 import { Fab, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add'
+import { fetchUsers } from './UsersClient';
 
 
 export const AddLink = function AddLink() {

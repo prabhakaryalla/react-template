@@ -3,4 +3,8 @@ import { IUser } from "./IUser";
 
 
 export const fetchUsers = (): Promise<IUser[]> =>
-    LabServicesApi.get('/users').then(response => response.data)
+    LabServicesApi.get<IUser[]>('/users').then(response => response.data)
+
+export default {
+    fetchUsers
+}
