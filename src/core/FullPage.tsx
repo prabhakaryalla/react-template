@@ -13,7 +13,7 @@ const FullPage = ({ subheading, heading, actions, children }: PropsWithChildren<
     <>
         <section style={{ marginBottom: 20 }}>
             <Box display="flex" alignItems="flex-start">
-                <Box flexGrow={1}>
+                <Box display="flex" justifyContent="center" flexGrow={1}>
                     <Typography variant="h5" gutterBottom={true}>{heading}</Typography>
                     {subheading && <Typography variant="h6">{subheading}</Typography>}
                 </Box>

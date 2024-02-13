@@ -1,42 +1,67 @@
 import { useFormik } from "formik";
-import { IUser } from "./IUser";
+import { IUser, UserValidationSchema } from "./IUser";
 import { Button, TextField } from "@mui/material";
 import { LabServicesApi } from "../../core/LabApi";
+import FullPage from "../../core/FullPage";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../AppContext";
+import { INotificationMessage, NotificationType } from "../../layout/Notification";
 
 interface IProps {
     user?: IUser
 }
 
+
+
 const UserForm = (props: IProps) => {
-    const { user } = props;
-    const isEdit = Boolean(user);
+
+    const nav = useNavigate();
+    const user: IUser = props.user || {
+        id: 0,
+        name: '',
+        email:'',
+        phone: '',
+        website:'',
+        username: ''
+    };
+
+    const {addNotification} = useAppContext();
+    
+    const isEdit = Boolean(user.id == 0);
     const formik = useFormik({
-        initialValues: isEdit ? user! : {} as IUser,
+        initialValues: user,
+        validationSchema: UserValidationSchema,
+        // validationSchema: UserValidationSchema,
         onSubmit: values => {
-            const url = isEdit ? `/users/${user?.id}` : "/users";
+            //const url = isEdit ? `/users/${user?.id}` : "/users";
+            const url = "/users";
             if(isEdit)
             {
                 LabServicesApi.put(`/users/${user?.id}`, JSON.stringify(values))
                 .then((response: any) => {
                     console.log('response', response);
+                addNotification({message: 'created', type: NotificationType.Info } as INotificationMessage)
+                nav(url);
+
                 });
             }
             else {
                 LabServicesApi.post(`/users`, JSON.stringify(values))
                 .then((response: any) => {
                     console.log('response', response);
-                });
+                    nav(url);
+                });                
             }
-            
-           
         },
     });
 
-
     return (<div>
+        <FullPage heading="User Form">
         <form onSubmit={formik.handleSubmit}>
             <TextField
                 fullWidth
+                sx={{ my: 1 }}
+                size="small"
                 id="name"
                 name="name"
                 label="Name"
@@ -48,7 +73,9 @@ const UserForm = (props: IProps) => {
             />
             <TextField
                 fullWidth
+                sx={{ my: 1 }}
                 id="username"
+                size="small"
                 name="username"
                 label="User Name"
                 value={formik.values.username}
@@ -59,7 +86,9 @@ const UserForm = (props: IProps) => {
             />
             <TextField
                 fullWidth
+                sx={{ my: 1 }}
                 id="email"
+                size="small"
                 name="email"
                 label="Email"
                 value={formik.values.email}
@@ -70,8 +99,10 @@ const UserForm = (props: IProps) => {
             />
             <TextField
                 fullWidth
+                sx={{ my: 1 }}
                 id="phone"
                 name="phone"
+                size="small"
                 label="Phone"
                 value={formik.values.phone}
                 onChange={formik.handleChange}
@@ -82,6 +113,8 @@ const UserForm = (props: IProps) => {
 
             <TextField
                 fullWidth
+                sx={{ my: 1 }}
+                size="small"
                 id="website"
                 name="website"
                 label="Website"
@@ -96,6 +129,9 @@ const UserForm = (props: IProps) => {
                 Submit
             </Button>
         </form>
+
+        </FullPage>
+    
     </div>)
 }
 

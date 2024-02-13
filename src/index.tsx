@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { ConfigProvider } from './config/ConfigContext';
 import { ThemeProvider } from '@mui/material';
 import { getTheme } from './layout/Theme';
+import { AppContextProvider } from './AppContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +15,9 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={getTheme()}>
       <ConfigProvider>
-        <App />
+        <AppContextProvider>
+          <App />
+        </AppContextProvider>
       </ConfigProvider>
     </ThemeProvider>
   </React.StrictMode>
