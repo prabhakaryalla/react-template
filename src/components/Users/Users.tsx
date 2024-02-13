@@ -11,7 +11,7 @@ import Table from '../../core/Table';
 import FullPage from '../../core/FullPage';
 import { Fab, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add'
-import { fetchUsers } from './UsersClient';
+import UsersClient from './UsersClient';
 
 
 export const AddLink = function AddLink() {
@@ -32,12 +32,13 @@ export default function Users() {
 
     useEffect(() => {
         setIsLoading(true);
-        fetchUsers().then(res => {
+        UsersClient.fetchUsers().then(res => {
             setCompanyUsers(res);
             setUsers(res as IUser[]);
-            setIsLoading(false);
         })
             .catch(err => {
+                console.error(err);
+            }).finally(() => {
                 setIsLoading(false);
             })
     }, [])
@@ -58,23 +59,23 @@ export default function Users() {
     }
 
     return (<FullPage heading="Users" actions={<AddLink />}>
-            <Table title="Users" isLoading={isLoading} columns={columns} data={companyUsers}
-                actions={[
-                    {
-                        icon: EditIcon,
-                        tooltip: 'Edit User',
-                        onClick: (event, rowData: any) => {
-                            const url = `/users/edit/${rowData.id}`;
-                            nav(url)
-                        }
-                    },
-                    {
-                        icon: DeleteIcon,
-                        tooltip: 'Delete User',
-                        onClick: (event, rowData: any) => alert("You want to delete " + rowData.name),
+        <Table title="Users" isLoading={isLoading} columns={columns} data={companyUsers}
+            actions={[
+                {
+                    icon: EditIcon,
+                    tooltip: 'Edit User',
+                    onClick: (event, rowData: any) => {
+                        const url = `/users/edit/${rowData.id}`;
+                        nav(url)
                     }
+                },
+                {
+                    icon: DeleteIcon,
+                    tooltip: 'Delete User',
+                    onClick: (event, rowData: any) => alert("You want to delete " + rowData.name),
+                }
 
-                ]} />
-        </FullPage>
+            ]} />
+    </FullPage>
     );
 }

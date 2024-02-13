@@ -1,10 +1,12 @@
 import { LabServicesApi } from "../../core/LabApi";
 import { IUser } from "./IUser";
 
+class UsersClient {
 
-export const fetchUsers = (): Promise<IUser[]> =>
-    LabServicesApi.get<IUser[]>('/users').then(response => response.data)
+    public fetchUsers(): Promise<IUser[]> {
+        return LabServicesApi.get<IUser[]>('/users').then(response => response.data);
+    }
 
-export default {
-    fetchUsers
 }
+
+export default new UsersClient;

@@ -36,7 +36,7 @@ export const Table = function Table(props: MaterialTableProps<RowData>) {
             padding: 'dense',
             search: true,
             searchFieldAlignment: 'right',
-            emptyRowsWhenPaging: true,
+            emptyRowsWhenPaging: false,
             actionsColumnIndex: -1,
             draggable: false,
             headerStyle: { fontWeight: "bold", backgroundColor: grey[300] },
