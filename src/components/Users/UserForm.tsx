@@ -12,7 +12,6 @@ interface IProps {
 }
 
 
-
 const UserForm = (props: IProps) => {
 
     const nav = useNavigate();
@@ -25,9 +24,9 @@ const UserForm = (props: IProps) => {
         username: ''
     };
 
-    const {addNotification} = useAppContext();
+    const {setNotification} = useAppContext();
     
-    const isEdit = Boolean(user.id == 0);
+    const isEdit = user.id != 0;
     const formik = useFormik({
         initialValues: user,
         validationSchema: UserValidationSchema,
@@ -40,16 +39,20 @@ const UserForm = (props: IProps) => {
                 LabServicesApi.put(`/users/${user?.id}`, JSON.stringify(values))
                 .then((response: any) => {
                     console.log('response', response);
-                addNotification({message: 'created', type: NotificationType.Info } as INotificationMessage)
+                setNotification({message: `user ${values.name} is updated`, type: NotificationType.Info } as INotificationMessage);
                 nav(url);
-
-                });
+                }).catch((err)=> {
+                    setNotification({message: err.message, type:NotificationType.Error} as INotificationMessage)
+                }); 
             }
             else {
                 LabServicesApi.post(`/users`, JSON.stringify(values))
                 .then((response: any) => {
                     console.log('response', response);
+                    setNotification({message: `user ${values.name} is created`, type: NotificationType.Info } as INotificationMessage);
                     nav(url);
+                }).catch((err)=> {
+                    setNotification({message: err.message, type:NotificationType.Error} as INotificationMessage)
                 });                
             }
         },

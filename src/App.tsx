@@ -15,32 +15,41 @@ import Notifications from './layout/Notification';
 import UserForm from './components/Users/UserForm';
 import { UserContextProvider } from './components/Users/UserContext';
 import EditUser from './components/Users/EditUser';
+import CommentList from './components/Comments/Comments';
+import { useAppContext } from './AppContext';
+import { initialiazeConfig } from './config/ConfigStore';
+import IConfigModel from './config/IConfigModel';
 
 
-export function App() {
 
-  const { isLoading, config } = useContext(ConfigContext);
-  const [ isAppInitializing, setIsAppInitiazing ] = useState(true);
+const App = () => {
+  const { setConfig } = useAppContext();
+  const [intializing, setInitializing] = useState(true);
 
-  useEffect(() =>  {
-    
-    setIsAppInitiazing(true);
-    if(!isLoading)
-    {
-      configureAxios(LabServicesApi, config.backendUrl);
-      setIsAppInitiazing(false);
-    } 
-  }, [isLoading])
-  
+
+  //TODO: Need to check why it is firing twice;
+  useEffect(() => {
+    let ignore = false;
+    if (!ignore) {
+      initialiazeConfig().then((res) => {
+        setConfig(res as IConfigModel);
+        configureAxios(LabServicesApi, res.backendUrl);
+        setInitializing(false);
+      });
+    }
+    return () => { ignore = true }
+  }, []);
+
   return (
     <div>
-      <Loader isLoading={isLoading || isAppInitializing}>
+      <Loader isLoading={intializing}>
         <BrowserRouter>
           <Layout>
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/orders' element={<Orders />} />
+              <Route path='/comments' element={<CommentList />} />
               <Route path='/users' element={<UserContextProvider><Users /></UserContextProvider>} />
               <Route path='/users/edit/:id' element={<UserContextProvider><EditUser /></UserContextProvider>} />
               <Route path='/users/create' element={<UserForm />} />
@@ -54,6 +63,7 @@ export function App() {
 
    </div>
   );
+
 }
 
 export default App;
