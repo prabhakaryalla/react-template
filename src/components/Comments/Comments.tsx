@@ -76,7 +76,7 @@ const CommentList = () => {
 
     return (
         <FullPage heading="Comments" actions={<AddLink />} >
-            <TableV2 state={{ isLoading: isLoadingComments, columnVisibility: { id: false, postId:false } }} enableRowActions={true} columns={columns} data={comments}
+            <TableV2 initialState={{columnVisibility: { id: false, postId:false } }} state={{ isLoading: isLoadingComments}} enableRowActions={true} columns={columns} data={comments}
                 renderRowActions={({ row  }) => (
                     <Box sx={{ display: 'flex', gap: '1rem' }}>
                         <Tooltip title="Edit">

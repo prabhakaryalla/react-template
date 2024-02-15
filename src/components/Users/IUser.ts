@@ -14,8 +14,8 @@ export const UserValidationSchema = Yup.object().shape({
     username: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
-        .required('Required'),
+        .required('User Name is Required'),
     phone: Yup.string()
-        .required('Required'),
-    email: Yup.string().email('Invalid email').required('Required'),
+        .required('Phone is Required'),
+    email: Yup.string().email('Invalid email').required('Email is Required'),
 });

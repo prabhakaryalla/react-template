@@ -19,9 +19,9 @@ export const TableV2 = function Table(props: MaterialReactTableProps<RowData>) {
         enableFilters: true,
         enableDensityToggle: false,
         enableGlobalFilterModes: true,
-        state: {
+        initialState: {
             density: 'compact',
-            // showGlobalFilter: true
+            showGlobalFilter: true
         },
         positionActionsColumn: 'last',
         enableStickyHeader: true,
@@ -61,6 +61,7 @@ export const TableV2 = function Table(props: MaterialReactTableProps<RowData>) {
 
 
     const { ...tableProps } = { ...defaultProps, ...props };       // Shallow merge props
+    tableProps.initialState = { ...defaultProps.initialState, ...props.initialState };  
     tableProps.state = { ...defaultProps.state, ...props.state };                                // Merge options
 
 
