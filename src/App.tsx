@@ -19,6 +19,7 @@ import CommentList from './components/Comments/Comments';
 import { useAppContext } from './AppContext';
 import { initialiazeConfig } from './config/ConfigStore';
 import IConfigModel from './config/IConfigModel';
+import UserSearchForm from './components/Users/UserSearchForm';
 
 
 
@@ -51,6 +52,7 @@ const App = () => {
               <Route path='/orders' element={<Orders />} />
               <Route path='/comments' element={<CommentList />} />
               <Route path='/users' element={<UserContextProvider><Users /></UserContextProvider>} />
+              <Route path='/users/search' element={<UserContextProvider><UserSearchForm /></UserContextProvider>} />
               <Route path='/users/edit/:id' element={<UserContextProvider><EditUser /></UserContextProvider>} />
               <Route path='/users/create' element={<UserForm />} />
             </Routes>
