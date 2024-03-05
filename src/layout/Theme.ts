@@ -5,7 +5,7 @@ export const getTheme = () => {
     return createTheme({
         palette: {
             primary: {
-              main: blue[500],
+              main: blue[700],
             },
             secondary: {
               main: green[500],
@@ -27,7 +27,17 @@ export const getTheme = () => {
                 fontFamily: '"Roboto Mono", "Courier New", Courier, monospace',
                 textTransform: 'none'
               }
-        }        
+        },
+        components: {
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                textTransform: 'none',
+                padding: "2px 20px",
+              }              
+            }
+          }
+        }     
     })
 
 }

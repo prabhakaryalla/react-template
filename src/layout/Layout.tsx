@@ -16,6 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SideNavigation from './SideNavigation';
+import { getTheme } from './Theme';
 
 
 function Copyright(props: any) {
@@ -81,8 +82,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function Layout(props: any) {
   const [open, setOpen] = React.useState(true);
@@ -91,7 +90,6 @@ export default function Layout(props: any) {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
@@ -165,6 +163,5 @@ export default function Layout(props: any) {
           </Container>
         </Box>
       </Box>
-    </ThemeProvider>
   );
 }
